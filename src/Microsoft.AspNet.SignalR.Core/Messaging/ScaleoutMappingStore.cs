@@ -4,7 +4,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.AspNet.SignalR.Messaging
 {
@@ -13,17 +12,23 @@ namespace Microsoft.AspNet.SignalR.Messaging
         private const int MaxMessages = 1000000;
 
         private ScaleoutStore _store;
+        private readonly uint _maxMessages;
 
         public ScaleoutMappingStore()
+            : this(null)
+        { }
+
+        public ScaleoutMappingStore(int? maxMessages)
         {
-            _store = new ScaleoutStore(MaxMessages);
+            _maxMessages = (uint)(maxMessages ?? MaxMessages);
+            _store = new ScaleoutStore(_maxMessages);
         }
 
         public void Add(ulong id, ScaleoutMessage message, IList<LocalEventKeyInfo> localKeyInfo)
         {
             if (MaxMapping != null && id < MaxMapping.Id)
             {
-                _store = new ScaleoutStore(MaxMessages);
+                _store = new ScaleoutStore(_maxMessages);
             }
 
             _store.Add(new ScaleoutMapping(id, message, localKeyInfo));

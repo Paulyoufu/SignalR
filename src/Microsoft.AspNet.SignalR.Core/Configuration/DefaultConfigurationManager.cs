@@ -60,7 +60,7 @@ namespace Microsoft.AspNet.SignalR.Configuration
                 _keepAlive = TimeSpan.FromTicks(_disconnectTimeout.Ticks / _minimumKeepAlivesPerDisconnectTimeout);
             }
         }
-        
+
         public TimeSpan? KeepAlive
         {
             get
@@ -103,6 +103,12 @@ namespace Microsoft.AspNet.SignalR.Configuration
         }
 
         public TimeSpan LongPollDelay
+        {
+            get;
+            set;
+        }
+
+        public int? MaxScaleoutMappingsPerStream
         {
             get;
             set;

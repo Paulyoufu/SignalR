@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR.Configuration;
 using Microsoft.AspNet.SignalR.Infrastructure;
 
 namespace Microsoft.AspNet.SignalR.Messaging
@@ -23,9 +23,9 @@ namespace Microsoft.AspNet.SignalR.Messaging
                              TraceSource trace,
                              IPerformanceCounterManager performanceCounters,
                              ScaleoutConfiguration configuration)
-            : this(send, receive, streamCount, trace, performanceCounters, configuration, maxScaleoutMappings: null)
-        {
-        }
+            : this(send, receive, streamCount, trace, performanceCounters, configuration,
+                  DefaultConfigurationManager.DefaultMaxScaleoutMappingsPerStream)
+        { }
 
         public ScaleoutStreamManager(Func<int, IList<Message>, Task> send,
                                      Action<int, ulong, ScaleoutMessage> receive,
@@ -33,7 +33,7 @@ namespace Microsoft.AspNet.SignalR.Messaging
                                      TraceSource trace,
                                      IPerformanceCounterManager performanceCounters,
                                      ScaleoutConfiguration configuration,
-                                     int? maxScaleoutMappings)
+                                     int maxScaleoutMappings)
         {
             if (configuration.QueueBehavior != QueuingBehavior.Disabled && configuration.MaxQueueLength == 0)
             {

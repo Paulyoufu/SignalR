@@ -4,23 +4,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.AspNet.SignalR.Configuration;
 
 namespace Microsoft.AspNet.SignalR.Messaging
 {
     public class ScaleoutMappingStore
     {
-        private const int MaxMessages = 1000000;
-
         private ScaleoutStore _store;
         private readonly uint _maxMessages;
 
         public ScaleoutMappingStore()
-            : this(null)
+            : this(DefaultConfigurationManager.DefaultMaxScaleoutMappingsPerStream)
         { }
 
-        public ScaleoutMappingStore(int? maxMessages)
+        public ScaleoutMappingStore(int maxMessages)
         {
-            _maxMessages = (uint)(maxMessages ?? MaxMessages);
+            _maxMessages = (uint)maxMessages;
             _store = new ScaleoutStore(_maxMessages);
         }
 

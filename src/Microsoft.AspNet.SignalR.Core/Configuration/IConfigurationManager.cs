@@ -62,6 +62,6 @@ namespace Microsoft.AspNet.SignalR.Configuration
         /// Gets or sets the maximum number of scaleout mappings per scaleout stream stored on the server.
         /// The default value is 1000000
         /// </summary>
-        int? MaxScaleoutMappingsPerStream { get; set; }
+        int MaxScaleoutMappingsPerStream { get; set; }
     }
 }
